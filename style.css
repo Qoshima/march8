@@ -4,9 +4,13 @@
     --card:#111322cc;
     --text:#f3f4ff;
     --muted:#c9ccffcc;
+    --border:#ffffff1a;
+
     --accent:#ff5da2;
     --accent2:#7cf7d4;
-    --border:#ffffff1a;
+
+    --tiltX: 0deg;
+    --tiltY: 0deg;
 }
 
 *{ box-sizing:border-box; }
@@ -23,11 +27,21 @@ body{
             radial-gradient(1200px 600px at 20% 10%, #ff5da233, transparent 60%),
             radial-gradient(900px 500px at 80% 30%, #7cf7d433, transparent 55%),
             linear-gradient(160deg, var(--bg1), var(--bg2));
+    overflow:hidden;
 }
 
+/* Canvas overlay */
+#fxCanvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+}
+
+/* Card + tilt */
 .card{
     width:min(720px, 100%);
-    padding:34px 28px;
     border:1px solid var(--border);
     border-radius:22px;
     background: var(--card);
@@ -35,6 +49,14 @@ body{
     box-shadow: 0 20px 60px #00000055;
     position:relative;
     overflow:hidden;
+
+    transform-style: preserve-3d;
+    transform: perspective(1000px) rotateX(var(--tiltX)) rotateY(var(--tiltY));
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.card:hover{
+    box-shadow: 0 30px 80px #00000066;
 }
 
 .card::before{
@@ -43,6 +65,13 @@ body{
     inset:-2px;
     background: linear-gradient(120deg, #ff5da240, #7cf7d420, transparent 55%);
     pointer-events:none;
+}
+
+/* Sections */
+.front, .content{
+    padding:34px 28px;
+    position:relative;
+    z-index:1;
 }
 
 .badge{
@@ -57,6 +86,10 @@ body{
     background:#ffffff10;
 }
 
+.badge.ghost{
+    opacity:.85;
+}
+
 h1{
     margin:18px 0 10px;
     font-size: clamp(28px, 4vw, 44px);
@@ -64,22 +97,88 @@ h1{
 }
 
 .subtitle{
-    margin:0;
+    margin:0 0 18px;
     color:var(--muted);
     font-size: clamp(14px, 2vw, 18px);
     line-height:1.6;
 }
 
+.hint{
+    margin:14px 0 0;
+    color:var(--muted);
+    font-size: 13px;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:12px 16px;
+    background: linear-gradient(90deg, #ff5da233, #7cf7d422);
+    color:var(--text);
+    font-weight:700;
+    cursor:pointer;
+    user-select:none;
+    transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
+}
+
+.btn:hover{ transform: translateY(-1px); border-color:#ffffff33; }
+.btn:active{ transform: translateY(0px) scale(0.99); }
+
+.btn.secondary{
+    background:#ffffff10;
+}
+
 .divider{
     height:1px;
-    margin:22px 0 18px;
+    margin:20px 0 16px;
     background: linear-gradient(90deg, transparent, #ffffff2e, transparent);
+}
+
+.content{
+    display:none; /* откроем через JS */
+    animation: appear 420ms ease forwards;
+}
+
+@keyframes appear{
+    from { opacity:0; transform: translateY(8px); filter: blur(6px); }
+    to   { opacity:1; transform: translateY(0); filter: blur(0); }
+}
+
+.big{
+    margin:16px 0 10px;
+    font-size: clamp(26px, 3.5vw, 38px);
+    line-height:1.15;
+}
+
+.typing{
+    margin:0;
+    min-height: 2.2em; /* чтобы не прыгала верстка пока печатает */
+    color:var(--muted);
+    font-size: clamp(14px, 2vw, 18px);
+    line-height:1.7;
+    white-space: pre-wrap;
 }
 
 .wish{
     margin:0;
     font-size: clamp(15px, 2vw, 18px);
     line-height:1.75;
+}
+
+.wish::first-letter{
+    font-size: 1.3em;
+    color: var(--accent2);
+    font-weight: 700;
+}
+
+.actions{
+    margin-top:18px;
+    display:flex;
+    gap:12px;
 }
 
 .footer{
@@ -90,9 +189,9 @@ h1{
     justify-content:flex-end;
 }
 
-/* Мелкая приятная деталь: выделяем часть текста */
-.wish::first-letter{
-    font-size: 1.3em;
-    color: var(--accent2);
-    font-weight: 700;
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+    .card{ transition:none; }
+    .content{ animation:none; }
+    .btn{ transition:none; }
 }

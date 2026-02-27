@@ -3,27 +3,58 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>С 8 Марта 🌷</title>
+    <title>С 8 Марта</title>
     <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
 </head>
 <body>
-<main class="card" role="main" aria-label="Открытка на 8 марта">
-    <div class="badge">8 Марта</div>
+<!-- canvas для лепестков/конфетти -->
+<canvas id="fxCanvas" aria-hidden="true"></canvas>
 
-    <h1>С праздником, девчонки! 🌷</h1>
-    <p class="subtitle">
-        Пусть будет больше поводов улыбаться, спокойствия в голове и тепла рядом.
-    </p>
+<main class="card" id="card" role="main" aria-label="Открытка на 8 марта">
+    <!-- FRONT (до открытия) -->
+    <section class="front" id="front">
+        <div class="badge">8 Марта</div>
 
-    <div class="divider" aria-hidden="true"></div>
+        <h1>Дорогие одногруппницы!</h1>
+        <p class="subtitle">
+            Я сделал(а) маленькую открытку для вас 🙂
+        </p>
 
-    <p class="wish">
-        Желаю вам весны внутри, лёгких побед в учёбе и классного настроения каждый день ✨
-    </p>
+        <button class="btn" id="openBtn" type="button" aria-label="Открыть открытку">
+            Открыть открытку
+        </button>
 
-    <footer class="footer">
-        <span>— от одногруппника ❤️</span>
-    </footer>
+        <p class="hint">Нажми кнопку — и будет небольшой эффект ✨</p>
+    </section>
+
+    <!-- CONTENT (после открытия) -->
+    <section class="content" id="content" aria-live="polite">
+        <div class="badge ghost">8 Марта</div>
+
+        <h2 class="big">С праздником!</h2>
+
+        <!-- typing-эффект будет печатать эту строку -->
+        <p class="typing" id="typingLine"
+           data-text="Пусть будет больше поводов улыбаться, спокойствия в голове и тепла рядом.">
+        </p>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <p class="wish">
+            Желаю вам весны внутри, лёгких побед в учёбе, классных людей рядом и уверенности в себе каждый день.
+        </p>
+
+        <div class="actions">
+            <button class="btn secondary" id="burstBtn" type="button">
+                Ещё эффект
+            </button>
+        </div>
+
+        <footer class="footer">
+            <span>— от одногруппника</span>
+        </footer>
+    </section>
 </main>
 </body>
 </html>
