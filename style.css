@@ -1,13 +1,22 @@
 :root{
-    --bg1:#0f1020;
-    --bg2:#1b1d3a;
-    --card:#111322cc;
-    --text:#f3f4ff;
-    --muted:#c9ccffcc;
-    --border:#ffffff1a;
+    /* Pastel background */
+    --bg1:#fff6fb;
+    --bg2:#f3f4ff;
+    --bg3:#f2fff9;
 
-    --accent:#ff5da2;
-    --accent2:#7cf7d4;
+    /* Card */
+    --card:#ffffffcc;
+    --border:#00000014;
+    --shadow:#0000001f;
+
+    /* Text */
+    --text:#1f2430;
+    --muted:#4a5163cc;
+
+    /* Accents */
+    --accent:#ff7fb1;   /* pastel pink */
+    --accent2:#6fe7c8;  /* pastel mint */
+    --accent3:#9aa6ff;  /* pastel lavender */
 
     --tiltX: 0deg;
     --tiltY: 0deg;
@@ -22,15 +31,15 @@ body{
     place-items:center;
     padding:24px;
     color:var(--text);
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
     background:
-            radial-gradient(1200px 600px at 20% 10%, #ff5da233, transparent 60%),
-            radial-gradient(900px 500px at 80% 30%, #7cf7d433, transparent 55%),
-            linear-gradient(160deg, var(--bg1), var(--bg2));
+            radial-gradient(900px 520px at 15% 15%, #ff7fb133, transparent 60%),
+            radial-gradient(900px 520px at 85% 25%, #6fe7c833, transparent 60%),
+            radial-gradient(900px 520px at 50% 90%, #9aa6ff2b, transparent 60%),
+            linear-gradient(140deg, var(--bg1), var(--bg2), var(--bg3));
     overflow:hidden;
 }
 
-/* Canvas overlay */
 #fxCanvas{
     position:fixed;
     inset:0;
@@ -39,14 +48,13 @@ body{
     pointer-events:none;
 }
 
-/* Card + tilt */
 .card{
-    width:min(720px, 100%);
+    width:min(760px, 100%);
     border:1px solid var(--border);
     border-radius:22px;
     background: var(--card);
     backdrop-filter: blur(10px);
-    box-shadow: 0 20px 60px #00000055;
+    box-shadow: 0 18px 50px var(--shadow);
     position:relative;
     overflow:hidden;
 
@@ -56,18 +64,17 @@ body{
 }
 
 .card:hover{
-    box-shadow: 0 30px 80px #00000066;
+    box-shadow: 0 26px 70px #00000026;
 }
 
 .card::before{
     content:"";
     position:absolute;
     inset:-2px;
-    background: linear-gradient(120deg, #ff5da240, #7cf7d420, transparent 55%);
+    background: linear-gradient(120deg, #ff7fb11f, #6fe7c81a, transparent 60%);
     pointer-events:none;
 }
 
-/* Sections */
 .front, .content{
     padding:34px 28px;
     position:relative;
@@ -76,19 +83,17 @@ body{
 
 .badge{
     display:inline-block;
-    font-weight:700;
+    font-weight:800;
     letter-spacing:.08em;
     text-transform:uppercase;
     font-size:12px;
     padding:10px 12px;
     border-radius:999px;
     border:1px solid var(--border);
-    background:#ffffff10;
+    background:#ffffffa6;
 }
 
-.badge.ghost{
-    opacity:.85;
-}
+.badge.ghost{ opacity:.9; }
 
 h1{
     margin:18px 0 10px;
@@ -103,6 +108,44 @@ h1{
     line-height:1.6;
 }
 
+.nameBox{
+    margin: 10px 0 18px;
+    padding: 14px 14px 12px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: #ffffff9a;
+}
+
+.label{
+    display:block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #2b3242;
+    margin-bottom: 8px;
+}
+
+.input{
+    width:100%;
+    border:1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 12px;
+    outline:none;
+    font-size: 16px;
+    background: #ffffff;
+    color: var(--text);
+}
+
+.input:focus{
+    border-color: #0000002a;
+    box-shadow: 0 0 0 4px #ff7fb124;
+}
+
+.small{
+    margin: 10px 0 0;
+    font-size: 12.5px;
+    color: var(--muted);
+}
+
 .hint{
     margin:14px 0 0;
     color:var(--muted);
@@ -113,33 +156,32 @@ h1{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    gap:10px;
     border:1px solid var(--border);
     border-radius:14px;
     padding:12px 16px;
-    background: linear-gradient(90deg, #ff5da233, #7cf7d422);
-    color:var(--text);
-    font-weight:700;
+    background: linear-gradient(90deg, #ff7fb13b, #6fe7c834);
+    color: #1f2430;
+    font-weight:800;
     cursor:pointer;
     user-select:none;
     transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
 }
 
-.btn:hover{ transform: translateY(-1px); border-color:#ffffff33; }
+.btn:hover{ transform: translateY(-1px); border-color:#00000022; }
 .btn:active{ transform: translateY(0px) scale(0.99); }
 
 .btn.secondary{
-    background:#ffffff10;
+    background:#ffffffb3;
 }
 
 .divider{
     height:1px;
     margin:20px 0 16px;
-    background: linear-gradient(90deg, transparent, #ffffff2e, transparent);
+    background: linear-gradient(90deg, transparent, #0000001f, transparent);
 }
 
 .content{
-    display:none; /* откроем через JS */
+    display:none;
     animation: appear 420ms ease forwards;
 }
 
@@ -154,9 +196,17 @@ h1{
     line-height:1.15;
 }
 
+.name{
+    color: #2b3242;
+    background: linear-gradient(90deg, #ff7fb12a, #9aa6ff24);
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
 .typing{
     margin:0;
-    min-height: 2.2em; /* чтобы не прыгала верстка пока печатает */
+    min-height: 2.2em;
     color:var(--muted);
     font-size: clamp(14px, 2vw, 18px);
     line-height:1.7;
@@ -170,9 +220,9 @@ h1{
 }
 
 .wish::first-letter{
-    font-size: 1.3em;
+    font-size: 1.25em;
     color: var(--accent2);
-    font-weight: 700;
+    font-weight: 900;
 }
 
 .actions{
@@ -189,7 +239,6 @@ h1{
     justify-content:flex-end;
 }
 
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
     .card{ transition:none; }
     .content{ animation:none; }
