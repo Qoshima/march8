@@ -5,57 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>С 8 Марта</title>
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Для "скачать открытку" (пункт 10) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
     <script defer src="script.js"></script>
 </head>
 <body>
 <canvas id="fxCanvas" aria-hidden="true"></canvas>
 
+<!-- Оверлей мини-игры (пункт 4) -->
+<div class="gameOverlay" id="gameOverlay" aria-hidden="true">
+    <div class="gameModal" role="dialog" aria-modal="true" aria-label="Мини-игра">
+        <div class="gameTop">
+            <div class="gameTitle">Поймай цветочки</div>
+            <button class="iconBtn" id="gameCloseBtn" type="button" aria-label="Закрыть">✕</button>
+        </div>
+
+        <div class="gameStats">
+            <div>Время: <b id="timeLeft">10</b>с</div>
+            <div>Очки: <b id="score">0</b></div>
+        </div>
+
+        <div class="gameField" id="gameField" aria-label="Поле игры"></div>
+
+        <div class="gameBottom">
+            <button class="btn" id="gameStartBtn" type="button">Старт</button>
+            <button class="btn secondary" id="gameAgainBtn" type="button" disabled>Ещё раз</button>
+        </div>
+
+        <p class="gameHint">Кликай по появляющимся цветочкам. Игра длится 10 секунд.</p>
+    </div>
+</div>
+
 <main class="card" id="card" role="main" aria-label="Открытка на 8 марта">
     <!-- FRONT -->
     <section class="front" id="front">
-        <div class="badge">8 Марта</div>
+        <div class="badge" id="badge">8 Марта</div>
 
         <h1>Дорогие одногруппницы!</h1>
         <p class="subtitle">
-            Я сделал(а) маленькую открытку для вас. Впиши своё имя — оно появится в тексте.
+            Я сделал(а) маленькую открытку для вас. Впиши имя — оно появится в тексте.
         </p>
 
+        <!-- Пункт 5: темы -->
+        <div class="panel">
+            <div class="panelTitle">Выбери настроение</div>
+            <div class="themes" role="group" aria-label="Выбор темы">
+                <button class="chip" data-theme="pink" type="button">Розовая</button>
+                <button class="chip" data-theme="lavender" type="button">Лавандовая</button>
+                <button class="chip" data-theme="mint" type="button">Мятная</button>
+            </div>
+        </div>
+
+        <!-- Имя -->
         <div class="nameBox" aria-label="Ввод имени">
             <label class="label" for="nameInput">Твоё имя</label>
             <input id="nameInput" class="input" type="text" inputmode="text"
                    placeholder="Например: Айгерим" maxlength="24" autocomplete="name" />
-            <p class="small">Можно написать как хочешь: полное имя или ник.</p>
+            <p class="small">Можно полное имя или ник.</p>
         </div>
 
-        <button class="btn" id="openBtn" type="button">
-            Открыть открытку
-        </button>
+        <!-- Пункт 6: стикеры -->
+        <div class="panel">
+            <div class="panelTitle">Выбери стикер</div>
+            <div class="stickers" id="stickerPicker" aria-label="Выбор стикера"></div>
+            <p class="small">Стикер появится рядом с твоим именем.</p>
+        </div>
 
-        <p class="hint">Нажми кнопку — будет небольшой эффект.</p>
+        <button class="btn" id="openBtn" type="button">Открыть открытку</button>
+
+        <p class="hint">Подсказка: нажми по бейджу “8 Марта” несколько раз.</p>
     </section>
 
     <!-- CONTENT -->
     <section class="content" id="content" aria-live="polite">
-        <div class="badge ghost">8 Марта</div>
+        <div class="badge ghost" id="badge2">8 Марта</div>
 
         <h2 class="big">
-            С 8 Марта, <span class="name" id="recipientName">дорогая</span>!
+            С 8 Марта, <span class="name" id="recipientName">дорогая</span>
+            <span class="stickerPreview" id="stickerPreview" aria-hidden="true"></span>!
         </h2>
 
+        <!-- typing (твой шаблон) -->
         <p class="typing" id="typingLine"
            data-template="Пусть у тебя, {{name}}, будет больше поводов улыбаться, спокойствия в голове и тепла рядом.">
         </p>
 
         <div class="divider" aria-hidden="true"></div>
 
-        <p class="wish">
-            Желаю весны внутри, лёгких побед в учёбе, классных людей рядом и уверенности в себе каждый день.
-        </p>
+        <!-- Пункт 2: генератор пожеланий -->
+        <div class="wishBox">
+            <div class="wishTop">
+                <div class="wishTitle">Пожелание</div>
+                <button class="btn secondary" id="newWishBtn" type="button">Ещё пожелание</button>
+            </div>
+            <p class="wishDynamic" id="wishDynamic">Нажми “Ещё пожелание”.</p>
+        </div>
 
         <div class="actions">
-            <button class="btn secondary" id="burstBtn" type="button">
-                Ещё эффект
-            </button>
+            <button class="btn secondary" id="burstBtn" type="button">Ещё эффект</button>
+            <button class="btn secondary" id="gameOpenBtn" type="button">Мини-игра</button>
+            <button class="btn secondary" id="downloadBtn" type="button">Скачать открытку</button>
+        </div>
+
+        <!-- Пункт 3: пасхалка -->
+        <div class="easterEgg" id="easterEgg" hidden>
+            <div class="eggTitle">Секретик</div>
+            <div class="eggText" id="eggText">Тут будет скрытое сообщение.</div>
         </div>
 
         <footer class="footer">
