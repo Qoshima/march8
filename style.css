@@ -208,37 +208,15 @@ h1 {
     overflow: hidden;
     background: #fffef9;
     box-shadow: inset 0 0 0 1px #ffffff9c;
-}
-
-.revealZone {
-    position: relative;
-    padding: 12px 14px;
-    border-bottom: 1px dashed #8f7b5f66;
-    background: linear-gradient(180deg, #fff7e9, #fffdf7);
-    user-select: none;
-    touch-action: none;
+    min-height: 280px;
 }
 
 .revealText {
-    font-weight: 800;
+    margin: 0 0 10px;
+    font-weight: 700;
     font-size: 13px;
     color: #4e4130;
-}
-
-.progress {
-    margin-top: 10px;
-    height: 8px;
-    border-radius: 999px;
-    border: 1px solid #8f7b5f66;
-    background: #fff;
-    overflow: hidden;
-}
-
-.bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--rose), var(--sage), var(--sand));
-    transition: width 120ms linear;
+    opacity: 0.85;
 }
 
 .wishContent {
@@ -262,21 +240,22 @@ h1 {
     color: var(--muted);
 }
 
-.veil {
+.scratchLayer {
     position: absolute;
     left: 0;
-    top: 48px;
+    top: 0;
     right: 0;
     bottom: 0;
-    background: #fffef9;
-    opacity: 0.93;
-    backdrop-filter: blur(5px);
-    transition: opacity 260ms ease;
-    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: crosshair;
 }
 
-.wishBox.revealed .veil {
+.wishBox.revealed .scratchLayer {
     opacity: 0;
+    transition: opacity 260ms ease;
+    pointer-events: none;
 }
 
 .mini {

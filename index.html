@@ -44,21 +44,14 @@
         </h2>
 
         <p class="sub">
-            Проведи <b>сверху</b> по окну, чтобы полностью открыть текст.
+            Сотри верхний слой в блоке ниже, чтобы открыть пожелание.
         </p>
 
         <!-- Окно с раскрытием -->
         <div class="wishBox" id="wishBox" role="group" aria-label="Окно пожелания">
-            <!-- Зона, где надо водить -->
-            <div class="revealZone" id="revealZone" aria-label="Проведи здесь сверху">
-                <div class="revealText">Проведи здесь сверху →</div>
-                <div class="progress" aria-hidden="true">
-                    <div class="bar" id="bar"></div>
-                </div>
-            </div>
-
             <!-- Текст пожелания -->
             <div class="wishContent" id="wishContent">
+                <p class="revealText">Ластик: проводи мышкой или пальцем ✦</p>
                 <p class="wishText" id="wishText">
                     Дорогая {{name}}, пусть эта весна принесёт тебе спокойствие в голове, уверенность в себе
                     и много поводов улыбаться. Пусть учёба идёт легче, планы складываются, а рядом будут
@@ -72,12 +65,12 @@
                 </div>
             </div>
 
-            <!-- “Шторка”, которая скрывает текст -->
-            <div class="veil" id="veil" aria-hidden="true"></div>
+            <!-- Стираемый слой -->
+            <canvas class="scratchLayer" id="scratchLayer" aria-hidden="true"></canvas>
         </div>
 
         <p class="mini" id="doneText" hidden>
-            Готово ✅ Теперь пожелание открыто полностью.
+            Готово ✅ Пожелание открыто.
         </p>
 
         <div class="row moreRow">
