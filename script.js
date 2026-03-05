@@ -9,14 +9,17 @@
     const demoBtn = document.getElementById("demoBtn");
     const backBtn = document.getElementById("backBtn");
     const nextWishBtn = document.getElementById("nextWishBtn");
+    const downloadBtn = document.getElementById("downloadBtn");
 
     const nameSlot = document.getElementById("nameSlot");
+    const fromSlot = document.getElementById("fromSlot");
 
     const wishBox = document.getElementById("wishBox");
     const wishText = document.getElementById("wishText");
     const scratchLayer = document.getElementById("scratchLayer");
 
     const doneText = document.getElementById("doneText");
+    const DONE_TEXT_DEFAULT = "Готово ✅ Пожелание открыто.";
 
     const GRID_X = 24;
     const GRID_Y = 16;
@@ -28,9 +31,17 @@
         "С 8 Марта, {{name}}! Пусть у тебя всегда хватает сил на мечты и смелости на новые шаги. Желаем крепкого здоровья, душевного тепла и яркой, красивой весны. 🌷",
         "{{name}}, пусть в твоей жизни будет больше поводов гордиться собой. Желаем гармонии, добрых встреч, удачи в каждом деле и отличного настроения не только сегодня, но и весь год. ✨"
     ];
+    const fromTemplates = [
+        "— парни группы",
+        "— твои одногруппники",
+        "— от вашей группы",
+        "— с уважением, ребята из группы",
+        "— от друзей по учебе"
+    ];
 
     let currentName = "";
     let wishIndex = 0;
+    let fromIndex = -1;
     let revealed = false;
 
     let seen = new Array(GRID_X * GRID_Y).fill(false);
@@ -66,6 +77,16 @@
         }
 
         wishText.innerHTML = prepared.replaceAll("\n\n", "<br><br>");
+    }
+
+    function renderSignature() {
+        if (fromTemplates.length === 0) return;
+        let idx = Math.floor(Math.random() * fromTemplates.length);
+        if (fromTemplates.length > 1 && idx === fromIndex) {
+            idx = (idx + 1) % fromTemplates.length;
+        }
+        fromIndex = idx;
+        fromSlot.textContent = fromTemplates[idx];
     }
 
     function resizeCanvas() {
@@ -165,6 +186,10 @@
             wishBox.classList.add("revealed");
             doneText.hidden = false;
             nextWishBtn.hidden = false;
+            downloadBtn.hidden = false;
+            if (navigator.vibrate) {
+                navigator.vibrate([70, 40, 70]);
+            }
         }
     }
 
@@ -182,7 +207,9 @@
         seenCount = 0;
 
         doneText.hidden = true;
+        doneText.textContent = DONE_TEXT_DEFAULT;
         nextWishBtn.hidden = true;
+        downloadBtn.hidden = true;
         wishBox.classList.remove("revealed");
 
         requestAnimationFrame(() => {
@@ -197,6 +224,7 @@
 
         nameSlot.textContent = getNiceName();
         renderWishText();
+        renderSignature();
 
         stepName.hidden = true;
         stepWish.hidden = false;
@@ -255,7 +283,38 @@
     nextWishBtn.addEventListener("click", () => {
         wishIndex = (wishIndex + 1) % wishTemplates.length;
         renderWishText(true);
+        renderSignature();
         resetReveal();
+    });
+
+    downloadBtn.addEventListener("click", async () => {
+        if (typeof window.html2canvas !== "function") {
+            doneText.hidden = false;
+            doneText.textContent = "Не удалось скачать: библиотека не загрузилась.";
+            return;
+        }
+
+        const originalText = downloadBtn.textContent;
+        downloadBtn.disabled = true;
+        downloadBtn.textContent = "Сохраняю...";
+
+        try {
+            const canvas = await window.html2canvas(stepWish, {
+                backgroundColor: null,
+                scale: Math.min(2, window.devicePixelRatio || 1),
+                useCORS: true
+            });
+            const link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = `otkrytka-8marta-${Date.now()}.png`;
+            link.click();
+        } catch {
+            doneText.hidden = false;
+            doneText.textContent = "Не получилось создать PNG. Попробуй еще раз.";
+        } finally {
+            downloadBtn.disabled = false;
+            downloadBtn.textContent = originalText;
+        }
     });
 
     backBtn.addEventListener("click", () => {

@@ -51,6 +51,62 @@ body {
     animation: cardEnter 500ms ease-out both;
 }
 
+.stickers {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.sticker {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px dashed #8f7b5f66;
+    box-shadow: 0 4px 8px #00000014;
+    font-size: 20px;
+    transition: transform 280ms ease;
+    animation: floatSticker 2.8s ease-in-out infinite;
+}
+
+.sticker.flower {
+    right: 20px;
+    top: 62px;
+    color: #d47c8f;
+    --r: 8deg;
+}
+
+.sticker.heart {
+    left: 16px;
+    top: 170px;
+    color: #bc5a5a;
+    --r: -10deg;
+    animation-delay: 240ms;
+}
+
+.sticker.star {
+    right: 24px;
+    bottom: 56px;
+    color: #9e8451;
+    --r: -8deg;
+    animation-delay: 430ms;
+}
+
+#stepWish:hover .sticker.flower {
+    transform: translateY(-3px) rotate(14deg);
+}
+
+#stepWish:hover .sticker.heart {
+    transform: translateX(3px) rotate(-14deg);
+}
+
+#stepWish:hover .sticker.star {
+    transform: translateY(2px) rotate(-2deg);
+}
+
 .card::before,
 .card::after {
     content: "";
@@ -172,6 +228,11 @@ h1 {
 .tapeBtn {
     background: linear-gradient(180deg, #f7ffe9, #e8f1d2);
     border-color: #839a6f;
+}
+
+#downloadBtn {
+    background: linear-gradient(180deg, #eef7ff, #deedf8);
+    border-style: solid;
 }
 
 .smallBtn {
@@ -306,6 +367,18 @@ h1 {
     }
 }
 
+@keyframes floatSticker {
+    0% {
+        transform: translateY(0) rotate(var(--r, 0deg));
+    }
+    50% {
+        transform: translateY(-3px) rotate(var(--r, 0deg));
+    }
+    100% {
+        transform: translateY(0) rotate(var(--r, 0deg));
+    }
+}
+
 @media (max-width: 640px) {
     .card {
         padding: 20px;
@@ -319,5 +392,11 @@ h1 {
 
     .row .btn {
         width: 100%;
+    }
+
+    .sticker {
+        width: 32px;
+        height: 32px;
+        font-size: 17px;
     }
 }

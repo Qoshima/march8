@@ -34,6 +34,12 @@
 
     <!-- Шаг 2: Окно пожелания -->
     <section class="card" id="stepWish" aria-label="Пожелание" hidden>
+        <div class="stickers" aria-hidden="true">
+            <span class="sticker flower">✿</span>
+            <span class="sticker heart">❤</span>
+            <span class="sticker star">✦</span>
+        </div>
+
         <div class="topline">
             <div class="badge small">пожелание</div>
             <button class="btn ghost smallBtn" id="backBtn" type="button">Изменить имя</button>
@@ -60,7 +66,7 @@
                     С праздником! 💐
                 </p>
 
-                <div class="from">
+                <div class="from" id="fromSlot">
                     — парни группы
                 </div>
             </div>
@@ -75,9 +81,11 @@
 
         <div class="row moreRow">
             <button class="btn tapeBtn" id="nextWishBtn" type="button">Еще пожелание</button>
+            <button class="btn ghost" id="downloadBtn" type="button" hidden>Скачать PNG</button>
         </div>
     </section>
 
 </main>
+<script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </body>
 </html>
