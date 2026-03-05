@@ -55,6 +55,8 @@
     let isDown = false;
     let lastX = 0;
     let lastY = 0;
+    const canParallax = window.matchMedia("(pointer: fine)").matches
+        && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const ctx = scratchLayer.getContext("2d");
 
@@ -92,6 +94,9 @@
         }
         fromIndex = idx;
         fromSlot.textContent = fromTemplates[idx];
+        fromSlot.classList.remove("inkReveal");
+        void fromSlot.offsetWidth;
+        fromSlot.classList.add("inkReveal");
     }
 
     function renderOpenedAt() {
@@ -261,6 +266,23 @@
         };
     }
 
+    function updateParallax(clientX, clientY) {
+        if (!canParallax || stepWish.hidden) return;
+        const r = stepWish.getBoundingClientRect();
+        const px = (clientX - r.left) / r.width - 0.5;
+        const py = (clientY - r.top) / r.height - 0.5;
+
+        stepWish.style.setProperty("--tx", `${px * 7}px`);
+        stepWish.style.setProperty("--ty", `${py * 5}px`);
+        stepWish.style.setProperty("--rot", `${px * 1.1}deg`);
+    }
+
+    function resetParallax() {
+        stepWish.style.setProperty("--tx", "0px");
+        stepWish.style.setProperty("--ty", "0px");
+        stepWish.style.setProperty("--rot", "0deg");
+    }
+
     function resetReveal() {
         revealed = false;
         seen.fill(false);
@@ -324,6 +346,14 @@
 
     scratchLayer.addEventListener("pointercancel", () => {
         isDown = false;
+    });
+
+    stepWish.addEventListener("pointermove", (e) => {
+        updateParallax(e.clientX, e.clientY);
+    });
+
+    stepWish.addEventListener("pointerleave", () => {
+        resetParallax();
     });
 
     openBtn.addEventListener("click", () => {
@@ -393,5 +423,6 @@
     window.addEventListener("resize", () => {
         if (stepWish.hidden || revealed) return;
         resetReveal();
+        resetParallax();
     });
 })();

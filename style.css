@@ -47,7 +47,9 @@ body {
     border-radius: var(--radius);
     box-shadow: 0 14px 30px var(--shadow);
     padding: 26px;
-    transform: rotate(-0.4deg);
+    transform: translate3d(var(--tx, 0px), var(--ty, 0px), 0) rotate(calc(-0.4deg + var(--rot, 0deg)));
+    will-change: transform;
+    transition: transform 180ms ease;
     animation: cardEnter 500ms ease-out both;
 }
 
@@ -364,6 +366,32 @@ h1 {
     margin-top: 12px;
     font-weight: 800;
     color: var(--muted);
+    display: inline-block;
+    position: relative;
+    font-family: "Brush Script MT", "Segoe Script", cursive;
+    font-size: 23px;
+    letter-spacing: 0.02em;
+}
+
+.from::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 8%;
+    bottom: -4px;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #8f7b5f00, #8f7b5fbb 15%, #8f7b5f99);
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+.from.inkReveal {
+    animation: inkText 460ms ease-out both;
+}
+
+.from.inkReveal::after {
+    animation: inkLine 640ms ease-out both;
 }
 
 .scratchLayer {
@@ -438,11 +466,11 @@ h1 {
 @keyframes cardEnter {
     from {
         opacity: 0;
-        transform: translateY(12px) rotate(-1.4deg);
+        transform: translate3d(var(--tx, 0px), calc(var(--ty, 0px) + 12px), 0) rotate(calc(-1.4deg + var(--rot, 0deg)));
     }
     to {
         opacity: 1;
-        transform: translateY(0) rotate(-0.4deg);
+        transform: translate3d(var(--tx, 0px), var(--ty, 0px), 0) rotate(calc(-0.4deg + var(--rot, 0deg)));
     }
 }
 
@@ -465,6 +493,30 @@ h1 {
     to {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@keyframes inkText {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+        filter: blur(1px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes inkLine {
+    from {
+        transform: scaleX(0);
+        opacity: 0.2;
+    }
+    to {
+        transform: scaleX(1);
+        opacity: 1;
     }
 }
 
@@ -497,7 +549,9 @@ h1 {
 @media (max-width: 640px) {
     .card {
         padding: 20px;
-        transform: none;
+        --tx: 0px !important;
+        --ty: 0px !important;
+        --rot: 0deg !important;
     }
 
     .card::before,
@@ -526,6 +580,19 @@ h1 {
     .cornerTape {
         width: 54px;
         top: 142px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        transition: none;
+    }
+
+    .from.inkReveal,
+    .from.inkReveal::after,
+    .petal,
+    .sticker {
+        animation: none !important;
     }
 }
 
