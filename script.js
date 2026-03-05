@@ -113,7 +113,6 @@
         if (!bgMusic) return;
         bgMusic.volume = 0.35;
         bgMusic.play().catch(() => {
-            // Автовоспроизведение может блокироваться политиками браузера.
         });
     }
 

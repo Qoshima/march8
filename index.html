@@ -10,8 +10,6 @@
 
 <body>
 <main class="wrap">
-
-    <!-- Шаг 1: Ввод имени -->
     <section class="card" id="stepName" aria-label="Ввод имени">
         <div class="badge">8 Марта</div>
 
@@ -32,7 +30,6 @@
         <p class="hint" id="nameHint" aria-live="polite"></p>
     </section>
 
-    <!-- Шаг 2: Окно пожелания -->
     <section class="card" id="stepWish" aria-label="Пожелание" hidden>
         <div class="scrapDecor" aria-hidden="true">
             <span class="clipMark">📎</span>
@@ -59,10 +56,7 @@
             Сотри верхний слой в блоке ниже, чтобы открыть пожелание.
         </p>
         <p class="stamp" id="timeStamp"></p>
-
-        <!-- Окно с раскрытием -->
         <div class="wishBox" id="wishBox" role="group" aria-label="Окно пожелания">
-            <!-- Текст пожелания -->
             <div class="wishContent" id="wishContent">
                 <p class="revealText">Ластик: проводи мышкой или пальцем ✦</p>
                 <p class="wishText" id="wishText">
@@ -78,7 +72,6 @@
                 </div>
             </div>
 
-            <!-- Стираемый слой -->
             <canvas class="scratchLayer" id="scratchLayer" aria-hidden="true"></canvas>
         </div>
 
@@ -101,7 +94,6 @@
         </section>
         <div class="petalLayer" id="petalLayer" aria-hidden="true"></div>
     </section>
-
 </main>
 <audio id="bgMusic" preload="auto" loop>
     <source src="assets/music.mp3" type="audio/mpeg" />
