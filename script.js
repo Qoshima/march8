@@ -13,10 +13,12 @@
 
     const nameSlot = document.getElementById("nameSlot");
     const fromSlot = document.getElementById("fromSlot");
+    const timeStamp = document.getElementById("timeStamp");
 
     const wishBox = document.getElementById("wishBox");
     const wishText = document.getElementById("wishText");
     const scratchLayer = document.getElementById("scratchLayer");
+    const bgMusic = document.getElementById("bgMusic");
 
     const doneText = document.getElementById("doneText");
     const revealHint = document.querySelector(".revealText");
@@ -89,6 +91,22 @@
         }
         fromIndex = idx;
         fromSlot.textContent = fromTemplates[idx];
+    }
+
+    function renderOpenedAt() {
+        const when = new Intl.DateTimeFormat("ru-RU", {
+            dateStyle: "long",
+            timeStyle: "short"
+        }).format(new Date());
+        timeStamp.textContent = `Открыто: ${when}`;
+    }
+
+    function startMusic() {
+        if (!bgMusic) return;
+        bgMusic.volume = 0.35;
+        bgMusic.play().catch(() => {
+            // Автовоспроизведение может блокироваться политиками браузера.
+        });
     }
 
     function resizeCanvas() {
@@ -227,6 +245,7 @@
         nameSlot.textContent = getNiceName();
         renderWishText();
         renderSignature();
+        renderOpenedAt();
 
         stepName.hidden = true;
         stepWish.hidden = false;
@@ -267,6 +286,7 @@
     });
 
     openBtn.addEventListener("click", () => {
+        startMusic();
         const n = sanitizeName(nameInput.value);
         if (!n) {
             nameHint.textContent = "Введи имя (или нажми “Без имени”).";
@@ -278,6 +298,7 @@
     });
 
     demoBtn.addEventListener("click", () => {
+        startMusic();
         nameHint.textContent = "";
         showWish("");
     });
