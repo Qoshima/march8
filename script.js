@@ -8,6 +8,7 @@
     const openBtn = document.getElementById("openBtn");
     const demoBtn = document.getElementById("demoBtn");
     const backBtn = document.getElementById("backBtn");
+    const nextWishBtn = document.getElementById("nextWishBtn");
 
     const nameSlot = document.getElementById("nameSlot");
 
@@ -19,10 +20,20 @@
     const doneText = document.getElementById("doneText");
 
     // --- Настройки раскрытия ---
-    const BINS = 40;              // насколько “точно” считаем покрытие
-    const TARGET_COVER = 0.85;    // 85% ширины нужно “пройти”
+    const BINS = 40;
+    const TARGET_COVER = 0.85;
     let seen = new Array(BINS).fill(false);
     let revealed = false;
+
+    const wishTemplates = [
+        "Дорогая {{name}}, пусть эта весна принесет тебе спокойствие в голове, уверенность в себе и много поводов улыбаться. Пусть учеба идет легче, планы складываются, а рядом будут люди, с которыми тепло и безопасно.\\n\\nС праздником! 💐",
+        "{{name}}, желаем тебе больше легких дней, вдохновения и маленьких радостей каждый день. Пусть в учебе будут высокие результаты, а в жизни - поддержка, забота и счастье. 🌸",
+        "С 8 Марта, {{name}}! Пусть у тебя всегда хватает сил на мечты и смелости на новые шаги. Желаем крепкого здоровья, душевного тепла и яркой, красивой весны. 🌷",
+        "{{name}}, пусть в твоей жизни будет больше поводов гордиться собой. Желаем гармонии, добрых встреч, удачи в каждом деле и отличного настроения не только сегодня, но и весь год. ✨"
+    ];
+
+    let currentName = "";
+    let wishIndex = 0;
 
     function sanitizeName(raw) {
         if (!raw) return "";
@@ -32,21 +43,33 @@
         return s;
     }
 
+    function getNiceName() {
+        return currentName || "дорогая";
+    }
+
+    function renderWishText(animate = false) {
+        const nice = getNiceName();
+        const template = wishTemplates[wishIndex % wishTemplates.length];
+        const prepared = template.replaceAll("{{name}}", nice);
+
+        if (animate) {
+            wishText.classList.remove("wishSwap");
+            void wishText.offsetWidth;
+            wishText.classList.add("wishSwap");
+        }
+
+        wishText.innerHTML = prepared.replaceAll("\n\n", "<br><br>");
+    }
+
     function showWish(name) {
-        const nice = name || "дорогая";
+        currentName = name;
+        wishIndex = 0;
+        nameSlot.textContent = getNiceName();
+        renderWishText();
 
-        // Подставляем имя в заголовок
-        nameSlot.textContent = nice;
-
-        // Подставляем имя в текст (шаблон {{name}})
-        const tpl = wishText.textContent;
-        wishText.textContent = tpl.replaceAll("{{name}}", nice);
-
-        // Переключаем шаги
         stepName.hidden = true;
         stepWish.hidden = false;
 
-        // сброс механики раскрытия
         resetReveal();
     }
 
@@ -55,12 +78,12 @@
         seen.fill(false);
         bar.style.width = "0%";
         doneText.hidden = true;
+        nextWishBtn.hidden = true;
         wishBox.classList.remove("revealed");
     }
 
     function coverage() {
-        const c = seen.filter(Boolean).length / BINS;
-        return c;
+        return seen.filter(Boolean).length / BINS;
     }
 
     function updateProgressUI() {
@@ -71,6 +94,7 @@
             revealed = true;
             wishBox.classList.add("revealed");
             doneText.hidden = false;
+            nextWishBtn.hidden = false;
         }
     }
 
@@ -85,7 +109,6 @@
         updateProgressUI();
     }
 
-    // Pointer events: работает и для мышки, и для тача
     let isDown = false;
 
     revealZone.addEventListener("pointerdown", (e) => {
@@ -101,14 +124,17 @@
 
     revealZone.addEventListener("pointerup", (e) => {
         isDown = false;
-        try { revealZone.releasePointerCapture(e.pointerId); } catch {}
+        try {
+            revealZone.releasePointerCapture(e.pointerId);
+        } catch {
+            // noop
+        }
     });
 
     revealZone.addEventListener("pointercancel", () => {
         isDown = false;
     });
 
-    // Кнопки
     openBtn.addEventListener("click", () => {
         const n = sanitizeName(nameInput.value);
         if (!n) {
@@ -121,17 +147,18 @@
 
     demoBtn.addEventListener("click", () => {
         nameHint.textContent = "";
-        showWish(""); // без имени
+        showWish("");
+    });
+
+    nextWishBtn.addEventListener("click", () => {
+        wishIndex = (wishIndex + 1) % wishTemplates.length;
+        renderWishText(true);
+        resetReveal();
     });
 
     backBtn.addEventListener("click", () => {
-        // Вернуться к вводу имени
         stepWish.hidden = true;
         stepName.hidden = false;
-
-        // Вернём текст шаблона назад (чтобы не накапливались подстановки)
-        // Проще: перезагрузить страницу — но сделаем аккуратно:
-        location.reload();
+        nameInput.focus();
     });
-
 })();

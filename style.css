@@ -1,152 +1,191 @@
-:root{
-    --bg: #f6f2ff;        /* пастельный фон (без градиента) */
-    --card: #ffffff;
-    --border: #00000014;
-    --shadow: #0000001c;
-
-    --text: #1f2430;
-    --muted: #4a5163cc;
-
-    --accent: #ff8fbe;    /* пастель розовый */
-    --accent2: #8fe9d0;   /* пастель мята */
-    --accent3: #a7b2ff;   /* пастель лаванда */
-
-    --radius: 18px;
+:root {
+    --paper: #f6f0df;
+    --paper-deep: #ece2c8;
+    --ink: #3f3528;
+    --muted: #6b5f4f;
+    --tape: #d8e9f4;
+    --rose: #f3b5b5;
+    --sage: #bfd7a8;
+    --sand: #e6c89f;
+    --border: #8f7b5f55;
+    --shadow: #6e5a3a33;
+    --radius: 10px;
 }
 
-*{ box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
-body{
+body {
     margin: 0;
     min-height: 100vh;
-    background: var(--bg);
-    color: var(--text);
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    color: var(--ink);
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    background:
+        radial-gradient(circle at 20% 20%, #ffffff6b 0 120px, transparent 140px),
+        radial-gradient(circle at 80% 10%, #ffffff4f 0 100px, transparent 130px),
+        repeating-linear-gradient(
+            45deg,
+            #00000003 0 2px,
+            transparent 2px 7px
+        ),
+        linear-gradient(160deg, var(--paper) 0%, var(--paper-deep) 100%);
 }
 
-.wrap{
+.wrap {
     min-height: 100vh;
     display: grid;
     place-items: center;
-    padding: 22px;
-    gap: 18px;
+    padding: 20px;
 }
 
-.card{
+.card {
     width: min(760px, 100%);
-    background: var(--card);
+    position: relative;
+    background: #fffdf6;
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    box-shadow: 0 16px 44px var(--shadow);
+    box-shadow: 0 14px 30px var(--shadow);
     padding: 26px;
+    transform: rotate(-0.4deg);
+    animation: cardEnter 500ms ease-out both;
 }
 
-.badge{
+.card::before,
+.card::after {
+    content: "";
+    position: absolute;
+    width: 86px;
+    height: 24px;
+    background: var(--tape);
+    opacity: 0.9;
+    top: -12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px #0000001a;
+}
+
+.card::before {
+    left: 26px;
+    transform: rotate(-7deg);
+}
+
+.card::after {
+    right: 26px;
+    transform: rotate(8deg);
+}
+
+.badge {
     display: inline-block;
-    font-weight: 900;
-    letter-spacing: .08em;
+    font-weight: 800;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
-    font-size: 12px;
-    padding: 10px 12px;
+    font-size: 11px;
+    padding: 8px 12px;
     border-radius: 999px;
-    border: 1px solid var(--border);
+    border: 1px dashed #8f7b5f77;
     background: #fff;
 }
 
-.badge.small{
-    font-size: 11px;
-    padding: 8px 10px;
+.badge.small {
+    font-size: 10px;
+    padding: 7px 10px;
 }
 
-h1{
-    margin: 14px 0 10px;
-    font-size: clamp(26px, 3.6vw, 40px);
-    line-height: 1.1;
+h1 {
+    margin: 14px 0 8px;
+    font-size: clamp(28px, 3.8vw, 42px);
+    line-height: 1.12;
+    font-family: Georgia, "Times New Roman", serif;
 }
 
-.title{
+.title {
     margin: 10px 0 8px;
-    font-size: clamp(22px, 3vw, 32px);
+    font-size: clamp(22px, 3vw, 34px);
     line-height: 1.15;
+    font-family: Georgia, "Times New Roman", serif;
 }
 
-.sub{
+.sub {
     margin: 0 0 14px;
     color: var(--muted);
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.62;
 }
 
-.label{
+.label {
     display: block;
-    margin-top: 10px;
+    margin-top: 8px;
     margin-bottom: 8px;
     font-weight: 800;
     font-size: 13px;
 }
 
-.input{
+.input {
     width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 12px 12px;
+    border: 1px solid #8f7b5f66;
+    border-radius: 10px;
+    padding: 12px;
     font-size: 16px;
     outline: none;
     background: #fff;
-    color: var(--text);
+    color: var(--ink);
 }
 
-.input:focus{
-    border-color: #00000022;
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+.input:focus {
+    border-color: #7f6a4f;
+    box-shadow: 0 0 0 4px #f3d8b666;
 }
 
-.row{
+.row {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
     margin-top: 14px;
 }
 
-.btn{
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 12px 16px;
-    background: #fff;
+.btn {
+    border: 1px solid #8f7b5f88;
+    border-radius: 10px;
+    padding: 11px 16px;
+    background: linear-gradient(180deg, #fffef9, #f8edd8);
     cursor: pointer;
-    font-weight: 900;
-    color: var(--text);
-    transition: transform 140ms ease, border-color 140ms ease;
+    font-weight: 800;
+    color: var(--ink);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+    box-shadow: 0 4px 10px #7d684616;
 }
 
-.btn:hover{
-    transform: translateY(-1px);
-    border-color: #00000022;
+.btn:hover {
+    transform: translateY(-1px) rotate(-0.4deg);
+    box-shadow: 0 6px 12px #7d68462a;
 }
 
-.btn:active{
+.btn:active {
     transform: translateY(0) scale(0.99);
 }
 
-.btn.ghost{
-    background: #ffffff;
-    color: #2b3242;
+.btn.ghost {
+    background: #fff;
     border-style: dashed;
 }
 
-.smallBtn{
-    padding: 10px 12px;
-    border-radius: 12px;
+.tapeBtn {
+    background: linear-gradient(180deg, #f7ffe9, #e8f1d2);
+    border-color: #839a6f;
 }
 
-.hint{
+.smallBtn {
+    padding: 10px 12px;
+}
+
+.hint {
     margin: 12px 0 0;
     font-size: 13px;
-    color: #cc2a6a;
+    color: #b63434;
     min-height: 1.2em;
 }
 
-.topline{
+.topline {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -154,104 +193,152 @@ h1{
     flex-wrap: wrap;
 }
 
-/* Имя в заголовке */
-.name{
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 2px 10px;
+.name {
+    background: linear-gradient(180deg, #fff, #ffe9e9);
+    border: 1px solid #8f7b5f55;
+    border-radius: 10px;
+    padding: 3px 10px;
 }
 
-/* Окно пожелания */
-.wishBox{
+.wishBox {
     position: relative;
     margin-top: 12px;
-    border: 1px solid var(--border);
-    border-radius: 16px;
+    border: 1px solid #8f7b5f66;
+    border-radius: 14px;
     overflow: hidden;
-    background: #fff;
+    background: #fffef9;
+    box-shadow: inset 0 0 0 1px #ffffff9c;
 }
 
-/* Верхняя зона “водить сверху” */
-.revealZone{
+.revealZone {
     position: relative;
     padding: 12px 14px;
-    border-bottom: 1px solid var(--border);
-    background: #fff;
+    border-bottom: 1px dashed #8f7b5f66;
+    background: linear-gradient(180deg, #fff7e9, #fffdf7);
     user-select: none;
-    touch-action: none; /* важно для тач-устройств */
+    touch-action: none;
 }
 
-.revealText{
-    font-weight: 900;
+.revealText {
+    font-weight: 800;
     font-size: 13px;
-    color: #2b3242;
+    color: #4e4130;
 }
 
-.progress{
+.progress {
     margin-top: 10px;
     height: 8px;
     border-radius: 999px;
-    border: 1px solid var(--border);
+    border: 1px solid #8f7b5f66;
     background: #fff;
     overflow: hidden;
 }
 
-.bar{
+.bar {
     height: 100%;
     width: 0%;
-    background: var(--accent3);
+    background: linear-gradient(90deg, var(--rose), var(--sage), var(--sand));
     transition: width 120ms linear;
 }
 
-/* Сам текст */
-.wishContent{
-    padding: 16px 16px 14px;
+.wishContent {
+    padding: 16px;
 }
 
-.wishText{
+.wishText {
     margin: 0;
     font-size: 16px;
     line-height: 1.75;
-    color: #2b3242;
+    color: #4e4130;
 }
 
-.from{
+.wishSwap {
+    animation: fadeSlide 360ms ease;
+}
+
+.from {
     margin-top: 12px;
-    font-weight: 900;
+    font-weight: 800;
     color: var(--muted);
 }
 
-/* Шторка, которая скрывает текст */
-.veil{
+.veil {
     position: absolute;
     left: 0;
-    top: 48px; /* высота зоны сверху (примерно) */
+    top: 48px;
     right: 0;
     bottom: 0;
-    background: #fff;
-    opacity: 0.92;
-    backdrop-filter: blur(6px);
-    transition: opacity 220ms ease;
+    background: #fffef9;
+    opacity: 0.93;
+    backdrop-filter: blur(5px);
+    transition: opacity 260ms ease;
     pointer-events: none;
 }
 
-/* Когда раскрыто */
-.wishBox.revealed .veil{
+.wishBox.revealed .veil {
     opacity: 0;
 }
 
-.mini{
+.mini {
     margin: 12px 0 0;
-    color: #2b3242;
-    font-weight: 900;
+    color: #4e4130;
+    font-weight: 800;
+    animation: pulseIn 300ms ease;
 }
 
-/* Нижняя подпись */
-.footer{
-    margin-top: 6px;
-    color: var(--muted);
-    font-weight: 900;
-    letter-spacing: .02em;
-    padding-bottom: 6px;
+.moreRow {
+    margin-top: 12px;
+}
+
+#nextWishBtn[hidden] {
+    display: none;
+}
+
+@keyframes cardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) rotate(-1.4deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(-0.4deg);
+    }
+}
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 640px) {
+    .card {
+        padding: 20px;
+        transform: none;
+    }
+
+    .card::before,
+    .card::after {
+        width: 68px;
+    }
+
+    .row .btn {
+        width: 100%;
+    }
 }
