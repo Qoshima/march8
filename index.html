@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Открытка • 8 Марта</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+</head>
+
+<body>
+<main class="wrap">
+
+    <!-- Шаг 1: Ввод имени -->
+    <section class="card" id="stepName" aria-label="Ввод имени">
+        <div class="badge">8 Марта</div>
+
+        <h1>Дорогие одногруппницы</h1>
+        <p class="sub">
+            Впиши имя — и откроется персональное пожелание.
+        </p>
+
+        <label class="label" for="nameInput">Твоё имя</label>
+        <input class="input" id="nameInput" type="text" maxlength="24" autocomplete="name"
+               placeholder="Например: Айгерим" />
+
+        <div class="row">
+            <button class="btn" id="openBtn" type="button">Открыть пожелание</button>
+            <button class="btn ghost" id="demoBtn" type="button">Без имени</button>
+        </div>
+
+        <p class="hint" id="nameHint" aria-live="polite"></p>
+    </section>
+
+    <!-- Шаг 2: Окно пожелания -->
+    <section class="card" id="stepWish" aria-label="Пожелание" hidden>
+        <div class="topline">
+            <div class="badge small">пожелание</div>
+            <button class="btn ghost smallBtn" id="backBtn" type="button">Изменить имя</button>
+        </div>
+
+        <h2 class="title">
+            С 8 Марта, <span class="name" id="nameSlot">дорогая</span> 🌷
+        </h2>
+
+        <p class="sub">
+            Проведи <b>сверху</b> по окну, чтобы полностью открыть текст.
+        </p>
+
+        <!-- Окно с раскрытием -->
+        <div class="wishBox" id="wishBox" role="group" aria-label="Окно пожелания">
+            <!-- Зона, где надо водить -->
+            <div class="revealZone" id="revealZone" aria-label="Проведи здесь сверху">
+                <div class="revealText">Проведи здесь сверху →</div>
+                <div class="progress" aria-hidden="true">
+                    <div class="bar" id="bar"></div>
+                </div>
+            </div>
+
+            <!-- Текст пожелания -->
+            <div class="wishContent" id="wishContent">
+                <p class="wishText" id="wishText">
+                    Дорогая {{name}}, пусть эта весна принесёт тебе спокойствие в голове, уверенность в себе
+                    и много поводов улыбаться. Пусть учёба идёт легче, планы складываются, а рядом будут
+                    люди, с которыми тепло и безопасно.
+                    <br><br>
+                    С праздником! 💐
+                </p>
+
+                <div class="from">
+                    — парни группы
+                </div>
+            </div>
+
+            <!-- “Шторка”, которая скрывает текст -->
+            <div class="veil" id="veil" aria-hidden="true"></div>
+        </div>
+
+        <p class="mini" id="doneText" hidden>
+            Готово ✅ Теперь пожелание открыто полностью.
+        </p>
+    </section>
+
+    <!-- Подпись внизу страницы -->
+    <footer class="footer">
+        Qoshima
+    </footer>
+
+</main>
+</body>
+</html>
