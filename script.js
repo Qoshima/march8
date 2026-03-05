@@ -10,6 +10,7 @@
     const backBtn = document.getElementById("backBtn");
     const nextWishBtn = document.getElementById("nextWishBtn");
     const downloadBtn = document.getElementById("downloadBtn");
+    const restartBtn = document.getElementById("restartBtn");
 
     const nameSlot = document.getElementById("nameSlot");
     const fromSlot = document.getElementById("fromSlot");
@@ -24,6 +25,7 @@
     const doneText = document.getElementById("doneText");
     const revealHint = document.querySelector(".revealText");
     const moreRow = document.querySelector(".moreRow");
+    const finalScreen = document.getElementById("finalScreen");
     const DONE_TEXT_DEFAULT = "Готово ✅ Пожелание открыто.";
 
     const GRID_X = 24;
@@ -301,9 +303,25 @@
         });
     }
 
+    function hideFinalScreen() {
+        finalScreen.hidden = true;
+        wishBox.hidden = false;
+        doneText.hidden = true;
+        moreRow.hidden = false;
+    }
+
+    function showFinalScreen() {
+        finalScreen.hidden = false;
+        wishBox.hidden = true;
+        doneText.hidden = true;
+        moreRow.hidden = true;
+        burstPetals();
+    }
+
     function showWish(name) {
         currentName = name;
         wishIndex = 0;
+        hideFinalScreen();
 
         nameSlot.textContent = getNiceName();
         renderWishText();
@@ -375,9 +393,23 @@
     });
 
     nextWishBtn.addEventListener("click", () => {
-        wishIndex = (wishIndex + 1) % wishTemplates.length;
+        if (wishIndex >= wishTemplates.length - 1) {
+            showFinalScreen();
+            return;
+        }
+
+        wishIndex += 1;
         renderWishText(true);
         renderSignature();
+        resetReveal();
+    });
+
+    restartBtn.addEventListener("click", () => {
+        wishIndex = 0;
+        hideFinalScreen();
+        renderWishText(true);
+        renderSignature();
+        renderOpenedAt();
         resetReveal();
     });
 
@@ -396,17 +428,17 @@
         try {
             hideForCapture.forEach((el) => el.classList.add("capture-hidden"));
             const canvas = await window.html2canvas(stepWish, {
-                backgroundColor: null,
+                backgroundColor: "#f6f0df",
                 scale: Math.min(2, window.devicePixelRatio || 1),
                 useCORS: true
             });
             const link = document.createElement("a");
-            link.href = canvas.toDataURL("image/png");
-            link.download = `otkrytka-8marta-${Date.now()}.png`;
+            link.href = canvas.toDataURL("image/jpeg", 0.92);
+            link.download = `otkrytka-8marta-${Date.now()}.jpg`;
             link.click();
         } catch {
             doneText.hidden = false;
-            doneText.textContent = "Не получилось создать PNG. Попробуй еще раз.";
+            doneText.textContent = "Не получилось создать JPG. Попробуй еще раз.";
         } finally {
             hideForCapture.forEach((el) => el.classList.remove("capture-hidden"));
             downloadBtn.disabled = false;
