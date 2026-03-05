@@ -400,3 +400,7 @@ h1 {
         font-size: 17px;
     }
 }
+
+.capture-hidden {
+    display: none !important;
+}

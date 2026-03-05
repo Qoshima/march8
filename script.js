@@ -19,6 +19,8 @@
     const scratchLayer = document.getElementById("scratchLayer");
 
     const doneText = document.getElementById("doneText");
+    const revealHint = document.querySelector(".revealText");
+    const moreRow = document.querySelector(".moreRow");
     const DONE_TEXT_DEFAULT = "Готово ✅ Пожелание открыто.";
 
     const GRID_X = 24;
@@ -295,10 +297,12 @@
         }
 
         const originalText = downloadBtn.textContent;
+        const hideForCapture = [backBtn, moreRow, doneText, revealHint].filter(Boolean);
         downloadBtn.disabled = true;
         downloadBtn.textContent = "Сохраняю...";
 
         try {
+            hideForCapture.forEach((el) => el.classList.add("capture-hidden"));
             const canvas = await window.html2canvas(stepWish, {
                 backgroundColor: null,
                 scale: Math.min(2, window.devicePixelRatio || 1),
@@ -312,6 +316,7 @@
             doneText.hidden = false;
             doneText.textContent = "Не получилось создать PNG. Попробуй еще раз.";
         } finally {
+            hideForCapture.forEach((el) => el.classList.remove("capture-hidden"));
             downloadBtn.disabled = false;
             downloadBtn.textContent = originalText;
         }
