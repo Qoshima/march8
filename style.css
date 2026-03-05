@@ -51,6 +51,60 @@ body {
     animation: cardEnter 500ms ease-out both;
 }
 
+.scrapDecor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.clipMark {
+    position: absolute;
+    top: -20px;
+    left: 48%;
+    font-size: 26px;
+    transform: rotate(8deg);
+    filter: grayscale(0.15);
+}
+
+.roundStamp {
+    position: absolute;
+    right: 54px;
+    top: 132px;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 2px dashed #9a8564;
+    color: #7f6a4f;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    display: grid;
+    place-items: center;
+    transform: rotate(-12deg);
+    opacity: 0.58;
+}
+
+.cornerTape {
+    position: absolute;
+    width: 68px;
+    height: 18px;
+    border-radius: 3px;
+    top: 126px;
+    background: linear-gradient(180deg, #e8ecf0, #d8dfe6);
+    opacity: 0.85;
+    box-shadow: 0 2px 5px #00000018;
+}
+
+.cornerTape.left {
+    left: 28px;
+    transform: rotate(-22deg);
+}
+
+.cornerTape.right {
+    right: 28px;
+    transform: rotate(18deg);
+}
+
 .stickers {
     position: absolute;
     inset: 0;
@@ -345,6 +399,42 @@ h1 {
     display: none;
 }
 
+.petalLayer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: var(--radius);
+    z-index: 8;
+}
+
+.petal {
+    position: absolute;
+    top: -12px;
+    width: 12px;
+    height: 18px;
+    border-radius: 10px 10px 10px 2px;
+    opacity: 0.9;
+    box-shadow: 0 2px 6px #00000022;
+    animation: petalFall var(--dur, 1500ms) linear forwards;
+}
+
+.petal.p1 {
+    background: #f6bdcf;
+}
+
+.petal.p2 {
+    background: #f7d7a1;
+}
+
+.petal.p3 {
+    background: #e8c8f0;
+}
+
+.petal.p4 {
+    background: #f7c8c8;
+}
+
 @keyframes cardEnter {
     from {
         opacity: 0;
@@ -375,6 +465,20 @@ h1 {
     to {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@keyframes petalFall {
+    0% {
+        transform: translate3d(0, -20px, 0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.92;
+    }
+    100% {
+        transform: translate3d(var(--x, 0px), var(--y, 360px), 0) rotate(var(--r, 210deg));
+        opacity: 0;
     }
 }
 
@@ -409,6 +513,19 @@ h1 {
         width: 32px;
         height: 32px;
         font-size: 17px;
+    }
+
+    .roundStamp {
+        right: 18px;
+        top: 146px;
+        width: 58px;
+        height: 58px;
+        font-size: 8px;
+    }
+
+    .cornerTape {
+        width: 54px;
+        top: 142px;
     }
 }
 

@@ -18,6 +18,7 @@
     const wishBox = document.getElementById("wishBox");
     const wishText = document.getElementById("wishText");
     const scratchLayer = document.getElementById("scratchLayer");
+    const petalLayer = document.getElementById("petalLayer");
     const bgMusic = document.getElementById("bgMusic");
 
     const doneText = document.getElementById("doneText");
@@ -107,6 +108,44 @@
         bgMusic.play().catch(() => {
             // Автовоспроизведение может блокироваться политиками браузера.
         });
+    }
+
+    function clearPetals() {
+        if (!petalLayer) return;
+        petalLayer.innerHTML = "";
+    }
+
+    function burstPetals() {
+        if (!petalLayer) return;
+        clearPetals();
+
+        const total = 22;
+        const paletteClasses = ["p1", "p2", "p3", "p4"];
+
+        for (let i = 0; i < total; i += 1) {
+            const p = document.createElement("span");
+            const kind = paletteClasses[i % paletteClasses.length];
+            p.className = `petal ${kind}`;
+
+            const left = 8 + Math.random() * 84;
+            const driftX = -110 + Math.random() * 220;
+            const dropY = 230 + Math.random() * 240;
+            const rotate = 120 + Math.random() * 280;
+            const dur = 1200 + Math.random() * 900;
+            const delay = Math.random() * 280;
+
+            p.style.left = `${left}%`;
+            p.style.setProperty("--x", `${driftX}px`);
+            p.style.setProperty("--y", `${dropY}px`);
+            p.style.setProperty("--r", `${rotate}deg`);
+            p.style.setProperty("--dur", `${dur}ms`);
+            p.style.animationDelay = `${delay}ms`;
+
+            petalLayer.appendChild(p);
+            p.addEventListener("animationend", () => {
+                p.remove();
+            });
+        }
     }
 
     function resizeCanvas() {
@@ -207,6 +246,7 @@
             doneText.hidden = false;
             nextWishBtn.hidden = false;
             downloadBtn.hidden = false;
+            burstPetals();
             if (navigator.vibrate) {
                 navigator.vibrate([70, 40, 70]);
             }
@@ -231,6 +271,7 @@
         nextWishBtn.hidden = true;
         downloadBtn.hidden = true;
         wishBox.classList.remove("revealed");
+        clearPetals();
 
         requestAnimationFrame(() => {
             resizeCanvas();
